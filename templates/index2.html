@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <title>주식 종목추천</title>
+        <script>
+            $(document).ready(function () {
+                showReview();
+            });
+            {#function makeReview() {#}
+            {#    $.ajax({#}
+            {#        type: "POST",#}
+            {#        url: "/review",#}
+            {#        data: {sample_give:'샘플데이터'},#}
+            {#        success: function (response) {#}
+            {#            alert(response["msg"]);#}
+            {#            window.location.reload();#}
+            {#        }#}
+            {#    })#}
+            {# }#}
+
+            function showReview() {
+                $.ajax({
+                    type: "GET",
+                    url: "/test",
+                    data: {},
+                    success: function (response) {
+                        let markets = response['all_markets']
+                        console.log(markets)
+                    }
+                })
+            }
+            function startbtn() {
+                alert('시작');
+                $('#startbt').hide()
+                $('#selectbt').show()
+            }
+            function checek_value(){
+                let checked_list = []
+                let checked1 = $("input[name='list1']:checked").val()
+                let checked2 = $("input[name='list2']:checked").val()
+                let checked3 = $("input[name='list3']:checked").val()
+                if (checked1 == 'market1' || checked1 == 'market2'){
+                    $('#check_list1').hide()
+                    $('#check_list2').show()
+                }
+                else if (checked2 == 'sector1' || checked2 == 'sector2' || checked2 == 'sector3'){
+                    $('#check_list2').hide()
+                    $('#check_list3').show()
+                }
+                else if (checked3 == 'tag1' || checked3 == 'tag1' || checked3 == 'tag1') {
+                    $('#check_list3').hide()
+                    $('#check_list3').show()
+                }
+            }
+        </script>
+        <style>
+            .all{
+                width: 1200px;
+                margin: auto;
+            }
+            .check_list{
+                list-style: none;
+                padding-inline-start: 0;
+                line-height: 28px;
+            }
+            .info{
+                line-height: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="all">
+            <div class="jumbotron">
+                <h1 class="display-4">주식 종목 추천!!</h1>
+                <p class="lead">원하시는 종목을 추천합니다.</p>
+                <hr class="my-4">
+                <div>
+                    <button type="button" class="btn btn-primary" id="startbt" onclick="startbtn()">추천 시작</button>
+                </div>
+                <div class="check_box" id="selectbt" style="display: none">
+                    <ul class="check_list" id="check_list1">
+                        <li><input type="radio" name="market" value="market1"><span> 코스피</span></li>
+                        <li><input type="radio" name="market" value="market2"><span> 코스닥</span></li>
+                    </ul>
+                    <ul class="check_list" id="check_list2" style="display: none">
+                        <li><input type="radio" name="sector" value="sector1"><span> 반도체와반도체장비</span></li>
+                        <li><input type="radio" name="sector" value="sector2"><span> 양방향미디어와서비스</span></li>
+                        <li><input type="radio" name="sector" value="sector3"><span> 자동차</span></li>
+                    </ul>
+                    <ul class="check_list" id="check_list3" style="display: none">
+                        <li><input type="radio" name="tag" value="tag1"><span> 메모리</span></li>
+                        <li><input type="radio" name="tag" value="tag2"><span> 플랫폼</span></li>
+                        <li><input type="radio" name="tag" value="tag3"><span> 전기차</span></li>
+                    </ul>
+                    <button onclick="checek_value()" type="button" class="btn btn-success">다음</button>
+                </div>
+                <div>
+                    <ul class="check_list info" style="display: none">
+                        <li><span>삼성전자 </span><button type="button" class="btn btn-info">정보</button></li>
+                        <li><span>삼성전자 </span><button type="button" class="btn btn-info">정보</button></li>
+                        <li><span>삼성전자 </span><button type="button" class="btn btn-info">정보</button></li>
+                        <li><span>삼성전자 </span><button type="button" class="btn btn-info">정보</button></li>
+                    </ul>
+                    <button type="button" class="btn btn-secondary">다시선택</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
