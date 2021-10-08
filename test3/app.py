@@ -46,7 +46,6 @@ def like_star():
 
     db.post.update_one({'title': name_receive}, {'$set': {'view_count': int(view_up)}})
 
-
 @app.route('/post', methods=['GET'])
 def get_post():
     posts = list(db.post.find({}, {'_id': False}).sort([("reg_date", -1)]))  # 최근 올린 글을 상위로 올려준다.
@@ -62,7 +61,6 @@ def get_post():
 #
 #     db.post.update_one({'title': }, {'content': })
 #     return {"result": "success"}
-
 
 @app.route('/post', methods=['DELETE'])
 def delete_post():
