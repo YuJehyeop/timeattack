@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판-글목록</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+</head>
+<style type="text/css">
+    * {
+        font-family: "Stylish", sans-serif;
+    }
+
+    .wrap {
+        width: 900px;
+        margin: auto;
+    }
+
+    #post-box {
+        width: 500px;
+        margin: 20px auto;
+        padding: 50px;
+        border: black solid;
+        border-radius: 5px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        showTitles();
+    });
+
+    function openClose() {
+        if ($("#post-box").css("display") === "block") {
+            $("#post-box").hide();
+            $("#btn-post-box").text("포스팅 박스 열기");
+        } else {
+            $("#post-box").show();
+            $("#btn-post-box").text("포스팅 박스 닫기");
+        }
+    }
+
+    let url = 'https://toccp6dsbb.execute-api.ap-northeast-2.amazonaws.com/default/mylambda';
+    function showTitles() {
+        $.ajax({
+            url: `${url}?type=list`,
+            method: "GET",
+            success: function (result) {
+                let titleList = result['data'];
+                for(let i = 0 ; i < titleList.length ; i++){
+                    let data = titleList[i]
+                    $('#list').append(`<tr>
+                                            <th scope="row">3</th>
+                                            <td>${data['title']}</td>
+                                            <td>${data['regDate']}</td>
+                                        </tr>`);
+                }
+            },
+        })
+    }
+</script>
+<body>
+<div class="wrap">
+    <div class="jumbotron">
+        <h1 class="display-4">게시판</h1>
+        <p class="lead"></p>
+        <hr class="my-4">
+        <p class="lead">
+            <button onclick="openClose()" id="btn-post-box" type="button" class="btn btn-primary">포스팅 박스 열기
+            </button>
+        </p>
+    </div>
+    <div id="post-box" style="display: none;">
+    </div>
+    <div id="cards-box">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">타이틀</th>
+                <th scope="col">등록일자</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
